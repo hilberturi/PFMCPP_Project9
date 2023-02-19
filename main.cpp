@@ -89,12 +89,11 @@ void variadicHelper (T first, Args ... restArgs)
     variadicHelper( std::forward<Args> (restArgs) ...); //recursive call
 }
 
-template<typename T, typename ...Args>
+template<typename T>
 void variadicHelper (T last)
 {
     Wrapper<T> (std::move (last)).print();
 }
-
 
 
 /*
