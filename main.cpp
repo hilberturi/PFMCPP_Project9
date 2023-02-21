@@ -24,6 +24,7 @@ Make the following program work, which makes use of Variadic templates and Recur
 struct Point
 {
     Point(float _x, float _y) : x(_x), y(_y) { }
+
     Point& multiply(float m)
     {
         x *= m;
@@ -51,7 +52,51 @@ struct Wrapper
     { 
         std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
     }
+
+    void print()
+    {
+        std::cout << "Wrapper::print(" << val << ")" << std::endl;        
+    }
+private:
+    Type val;
 };
+
+template<>
+void Wrapper<Point>::print()
+{
+    std::cout << "Wrapper::print(" << val.toString() << ")" << std::endl;        
+}
+
+/*
+Solution 1:
+
+template<typename T, typename ... Args>
+void variadicHelper (T&& first, Args&& ... restArgs)
+{
+    Wrapper<T> (std::move (first)).print();
+    variadicHelper( std::forward<Args> (restArgs) ...); //recursive call
+}
+
+template<typename T>
+void variadicHelper (T&& last)
+{
+    Wrapper<T> (std::move (last)).print();
+}
+*/
+
+// Solution 2:
+
+void variadicHelper ()
+{
+}
+
+template<typename T, typename ... Args>
+void variadicHelper (T&& first, Args&& ... restArgs)
+{
+    Wrapper<T> (std::move (first)).print();
+    variadicHelper( std::forward<Args> (restArgs) ...); //recursive call
+}
+
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
