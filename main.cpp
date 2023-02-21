@@ -80,17 +80,14 @@ private:
 };
 
 template<typename T, typename ... Args>
-void variadicHelper (T first, Args ... restArgs)
+void variadicHelper (T&& first, Args&& ... restArgs)
 {
-    {
-        // we don't need the wrapper object on the stack, so I use a separate block scope here
-        Wrapper<T> (std::move (first)).print();
-    }
+    Wrapper<T> (std::move (first)).print();
     variadicHelper( std::forward<Args> (restArgs) ...); //recursive call
 }
 
 template<typename T>
-void variadicHelper (T last)
+void variadicHelper (T&& last)
 {
     Wrapper<T> (std::move (last)).print();
 }
