@@ -67,6 +67,9 @@ void Wrapper<Point>::print()
     std::cout << "Wrapper::print(" << val.toString() << ")" << std::endl;        
 }
 
+/*
+Solution 1:
+
 template<typename T, typename ... Args>
 void variadicHelper (T&& first, Args&& ... restArgs)
 {
@@ -78,6 +81,20 @@ template<typename T>
 void variadicHelper (T&& last)
 {
     Wrapper<T> (std::move (last)).print();
+}
+*/
+
+// Solution 2:
+
+void variadicHelper ()
+{
+}
+
+template<typename T, typename ... Args>
+void variadicHelper (T&& first, Args&& ... restArgs)
+{
+    Wrapper<T> (std::move (first)).print();
+    variadicHelper( std::forward<Args> (restArgs) ...); //recursive call
 }
 
 
