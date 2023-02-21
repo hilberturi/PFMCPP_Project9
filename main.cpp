@@ -62,22 +62,10 @@ private:
 };
 
 template<>
-struct Wrapper<Point>
+void Wrapper<Point>::print()
 {
-    using Type = Point;
-
-    Wrapper(Type&& t) : val(std::move(t)) 
-    { 
-        std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
-    }
-
-    void print()
-    {
-        std::cout << "Wrapper::print(" << val.toString() << ")" << std::endl;        
-    }
-private:
-    Type val;
-};
+    std::cout << "Wrapper::print(" << val.toString() << ")" << std::endl;        
+}
 
 template<typename T, typename ... Args>
 void variadicHelper (T&& first, Args&& ... restArgs)
